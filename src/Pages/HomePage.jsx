@@ -2,7 +2,7 @@ import { MANGA } from "@consumet/extensions";
 import React, { useEffect, useState } from "react";
 import PopularManga from "../components/PopularManga";
 import PopularMangaList from "../components/PopularMangaList";
-import { Box, Heading, Stack } from "@chakra-ui/react";
+import { Box, Heading, Skeleton, Stack } from "@chakra-ui/react";
 import RecentlyAdded from "../components/RecentlyAdded";
 import Navbar from "../components/Navbar";
 import MangaList from "../components/MangaList";
@@ -21,18 +21,25 @@ export default function HomePage() {
   return (
     <div>
       <PopularManga />
-      <Stack w={"full"} direction={"row"}>
-        <Box w="70%">
+      <Stack w={"full"} direction={{ base: "column", lg: "row" }}>
+        <Box w={{ base: "100%", lg: "70%" }} pl={{ base: "0", lg: "5" }}>
           <PopularMangaList />
-          {data?.results?.length && (
+          {data?.results?.length ? (
             <Stack p={4} direction={"row"} justify={"space-between"}>
               <Heading size={"2xl"}>More Popular </Heading>
               <Link>More</Link>
             </Stack>
+          ) : (
+            <Skeleton height="5" width="100%" />
           )}
-          <MangaList data={data} width={"200px"} size={"full"} />
+          <MangaList
+            data={data}
+            width={"200px"}
+            size={"full"}
+            baseWidth={"230px"}
+          />
         </Box>
-        <Box w={"30%"}>
+        <Box w={{ base: "100%", lg: "30%" }}>
           <RecentlyAdded />
         </Box>
       </Stack>

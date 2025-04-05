@@ -9,10 +9,12 @@ import {
   Heading,
   IconButton,
   Image,
+  Skeleton,
   Stack,
   Text,
 } from "@chakra-ui/react";
 import { FaBookOpen, FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { useNavigate } from "react-router";
 
 // Custom arrows
 const NextArrow = (props) => {
@@ -53,9 +55,13 @@ const PrevArrow = (props) => {
 
 export default function PopularManga() {
   const [data, setData] = useState();
+  const navigat = useNavigate();
+  const handleclick = (id) => {
+    navigat(`/manga/${id}`);
+  };
   const getData = async () => {
     const mangadex = new MANGA.MangaDex();
-    const result = await mangadex.fetchPopular(1, 10);
+    const result = await mangadex.fetchPopular(1, 5);
     setData(result);
   };
   useEffect(() => {
@@ -74,56 +80,68 @@ export default function PopularManga() {
     prevArrow: <PrevArrow />,
   };
   return (
-    <Box w="full" maxW="full" mx="auto" overflow="hidden">
-      {/* {console.log(data)} */}
-      <Slider {...settings}>
-        {data?.results?.map((manga) => (
-          <Stack
-            flexDir={"row"}
-            key={manga?.id}
-            bgImage={manga?.image}
-            h={"500px"}
-            position="relative"
-            w={"full"}
-          >
-            <Image
-              src={manga?.image}
-              alt={manga?.title}
-              h="400px"
-              w={"full"}
-              zIndex="-1"
+    <Box
+      w="full"
+      maxW="full"
+      mx="auto"
+      overflow="visible"
+      pb={10}
+      position="relative"
+    >
+      {console.log(data)}
+
+      {data ? (
+        <Slider {...settings}>
+          {data?.results?.map((manga) => (
+            <Stack
+              flexDir={"row"}
+              key={manga?.id}
+              bgImage={manga?.image}
+              h={"500px"}
               position="relative"
-            />
-            <Box
-              w="100%"
-              color="white"
-              flexDir="column"
-              mt={"-200px"}
-              px={4}
-              zIndex="1"
-              bgGradient="to-t"
-              gradientFrom="black"
-              gradientTo="transparent"
+              w={"full"}
             >
-              <Heading truncate w="50%" fontSize="2xl">
-                {manga?.title}
-              </Heading>
-              <Text lineClamp={3} w="50%" fontSize="lg" mt={2}>
-                {manga?.description}...
-              </Text>
-              <Button
-                mt={4}
-                colorScheme="teal"
-                size="lg"
-                // onClick={() => handleclick(ma?.animeId)}
+              <Image
+                src={manga?.image}
+                alt={manga?.title}
+                h="500px"
+                w={"full"}
+                zIndex="-1"
+                position="relative"
+              />
+              <Box
+                w="100%"
+                color="white"
+                flexDir="column"
+                mt={"-200px"}
+                px={4}
+                zIndex="1"
+                bgGradient="to-t"
+                gradientFrom="black"
+                gradientTo="transparent"
               >
-                <FaBookOpen />
-                Read now
-              </Button>
-            </Box>
-          </Stack>
-        ))}
-      </Slider>
+                <Heading truncate w="50%" fontSize="2xl">
+                  {manga?.title}
+                </Heading>
+                <Text lineClamp={3} w="50%" fontSize="lg" mt={2}>
+                  {manga?.description}...
+                </Text>
+                <Button
+                  mt={4}
+                  colorScheme="teal"
+                  size="lg"
+                  onClick={() => handleclick(manga?.id)}
+                >
+                  <FaBookOpen />
+                  Read now
+                </Button>
+              </Box>
+            </Stack>
+          ))}
+        </Slider>
+      ) : (
+        <Skeleton height="500px" width="100%" />
+      )}
     </Box>
   );
 }

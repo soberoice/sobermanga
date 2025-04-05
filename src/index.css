@@ -1,0 +1,22 @@
+/* This makes the dots visible and styled */
+.slick-dots {
+  top: 0 !important;
+  left: 33% !important;
+  transform: rotate(90deg) !important; /* moves them up a little */
+}
+
+.slick-dots li button:before {
+  font-size: 15px !important;
+  color: rgb(0, 0, 0) !important;
+  opacity: 0.75 !important;
+  border: 2px solid white !important;
+  border-radius: 50%;
+  transition: all 0.3s;
+}
+
+.slick-dots li.slick-active button:before {
+  color: rgba(255, 255, 255, 0) !important;
+  border: 2px solid black !important;
+  transform: scale(1.2) !important;
+  opacity: 1;
+}

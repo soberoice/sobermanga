@@ -23,7 +23,7 @@ export default function Searchbar() {
         placeholder="Search Something "
         bg="white"
         color="black"
-        w="500px"
+        w={{ base: "200px", lg: "500px" }}
         mx="10px"
         onChange={(e) => setSearchTerm(e.target.value)}
       />
