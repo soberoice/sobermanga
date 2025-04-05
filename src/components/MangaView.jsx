@@ -70,6 +70,7 @@ export default function MangaView() {
             : { base: "100%", md: "55%", lg: "30%" }
         }
         whiteSpace={isHorizontal ? "nowrap" : "normal"}
+        gap={isHorizontal ? 4 : 0}
         flexShrink={0}
       >
         {console.log(data)}
