@@ -15,7 +15,6 @@ import {
 } from "@chakra-ui/react";
 import { FaBookOpen, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useNavigate } from "react-router";
-import Proxy from "@consumet/extensions/dist/models/proxy";
 
 // Custom arrows
 const NextArrow = (props) => {
@@ -62,9 +61,10 @@ export default function PopularManga() {
   };
   const getData = async () => {
     // Define the proxy configuration
+    const proxyConfig = "https://corsproxy-psi.vercel.app/api/proxy?url=";
 
     // Create a new MangaDex instance with the proxyConfig
-    const mangadex = new MANGA.MangaDex(Proxy);
+    const mangadex = new MANGA.MangaDex(proxyConfig);
 
     try {
       // Fetch popular manga using the proxy
