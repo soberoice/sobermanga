@@ -62,7 +62,7 @@ export default function PopularManga() {
 
   // Using the CORS Proxy
   const getData = async () => {
-    const proxyUrl = "https://your-vercel-project.vercel.app/api/proxy?url=";
+    const proxyUrl = "https://corsproxy-psi.vercel.app/api/proxy?url=";
     const apiUrl = "https://api.mangadex.org/manga";
     const urlWithProxy = `${proxyUrl}${encodeURIComponent(apiUrl)}`;
 
