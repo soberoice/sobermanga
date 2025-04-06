@@ -63,10 +63,9 @@ export default function PopularManga() {
     // Define the proxy configuration
 
     // Create a new MangaDex instance with the proxyConfig
-    const mangadex = new MANGA.MangaDex(
-      "https://corsproxy-psi.vercel.app/api/proxy?url="
-    );
-
+    const mangadex = new MANGA.MangaDex({
+      url: ["https://corsproxy-psi.vercel.app/api/proxy?url="],
+    });
     try {
       // Fetch popular manga using the proxy
       const result = await mangadex.fetchPopular(1, 5); // You can adjust the page/limit as needed
