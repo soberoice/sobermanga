@@ -60,9 +60,7 @@ export default function PopularManga() {
     navigat(`/manga/${id}`);
   };
   const getData = async () => {
-    const proxyConfig = {
-      baseUrl: "https://your-vercel-project.vercel.app/api/proxy?url=", // Proxy URL
-    };
+    const proxyConfig = "https://your-vercel-project.vercel.app/api/proxy?url=";
 
     const mangadex = new MANGA.MangaDex(proxyConfig);
     const result = await mangadex.fetchPopular(1, 5);
