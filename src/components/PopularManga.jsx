@@ -61,10 +61,11 @@ export default function PopularManga() {
   };
   const getData = async () => {
     // Define the proxy configuration
-    const proxyConfig = "https://corsproxy-psi.vercel.app/api/proxy?url=";
 
     // Create a new MangaDex instance with the proxyConfig
-    const mangadex = new MANGA.MangaDex(proxyConfig);
+    const mangadex = new MANGA.MangaDex(
+      "https://corsproxy-psi.vercel.app/api/proxy?url="
+    );
 
     try {
       // Fetch popular manga using the proxy
