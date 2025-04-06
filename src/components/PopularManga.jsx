@@ -59,17 +59,26 @@ export default function PopularManga() {
   const handleclick = (id) => {
     navigat(`/manga/${id}`);
   };
-  const getData = async () => {
-    // Define the proxy configuration
 
-    // Create a new MangaDex instance with the proxyConfig
+  const getData = async () => {
+    // Define the proxy configuration with the proxy URL
     const mangadex = new MANGA.MangaDex({
-      url: ["https://corsproxy-psi.vercel.app/api/proxy?url="],
+      proxyConfig: {
+        baseUrl: "https://corsproxy-psi.vercel.app/api/proxy?url=",
+      },
     });
+
     try {
       // Fetch popular manga using the proxy
-      const result = await mangadex.fetchPopular(1, 5); // You can adjust the page/limit as needed
-      setData(result);
+      const result = await mangadex.fetchPopular(1, 5); // Adjust the page/limit as needed
+      console.log(result); // Debug the result structure
+
+      // Ensure the response has the expected structure before updating state
+      if (result && result.results) {
+        setData(result);
+      } else {
+        console.error("Invalid response structure:", result);
+      }
     } catch (error) {
       console.error("Error fetching manga:", error);
     }
@@ -90,6 +99,7 @@ export default function PopularManga() {
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
   };
+
   return (
     <Box
       w="full"
@@ -99,22 +109,20 @@ export default function PopularManga() {
       pb={10}
       position="relative"
     >
-      {console.log(data)}
-
       {data ? (
         <Slider {...settings}>
-          {data?.results?.map((manga) => (
+          {data.results.map((manga) => (
             <Stack
               flexDir={"row"}
-              key={manga?.id}
-              bgImage={manga?.image}
+              key={manga.id}
+              bgImage={manga.image}
               h={"500px"}
               position="relative"
               w={"full"}
             >
               <Image
-                src={manga?.image}
-                alt={manga?.title}
+                src={manga.image}
+                alt={manga.title}
                 h="500px"
                 w={"full"}
                 zIndex="-1"
@@ -132,16 +140,16 @@ export default function PopularManga() {
                 gradientTo="transparent"
               >
                 <Heading truncate w="50%" fontSize="2xl">
-                  {manga?.title}
+                  {manga.title}
                 </Heading>
                 <Text lineClamp={3} w="50%" fontSize="lg" mt={2}>
-                  {manga?.description}...
+                  {manga.description}...
                 </Text>
                 <Button
                   mt={4}
                   colorScheme="teal"
                   size="lg"
-                  onClick={() => handleclick(manga?.id)}
+                  onClick={() => handleclick(manga.id)}
                 >
                   <FaBookOpen />
                   Read now
