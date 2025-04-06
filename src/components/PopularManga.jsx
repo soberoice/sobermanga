@@ -60,12 +60,23 @@ export default function PopularManga() {
     navigat(`/manga/${id}`);
   };
   const getData = async () => {
-    const proxyConfig = "https://your-vercel-project.vercel.app/api/proxy?url=";
+    // Define the proxy configuration
+    const proxyConfig = {
+      baseUrl: "https://your-vercel-project.vercel.app/api/proxy?url=", // Proxy URL
+    };
 
+    // Create a new MangaDex instance with the proxyConfig
     const mangadex = new MANGA.MangaDex(proxyConfig);
-    const result = await mangadex.fetchPopular(1, 5);
-    setData(result);
+
+    try {
+      // Fetch popular manga using the proxy
+      const result = await mangadex.fetchPopular(1, 5); // You can adjust the page/limit as needed
+      setData(result);
+    } catch (error) {
+      console.error("Error fetching manga:", error);
+    }
   };
+
   useEffect(() => {
     getData();
   }, []);
