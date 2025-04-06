@@ -59,11 +59,28 @@ export default function PopularManga() {
   const handleclick = (id) => {
     navigat(`/manga/${id}`);
   };
+
+  // Using the CORS Proxy
   const getData = async () => {
-    const mangadex = new MANGA.MangaDex();
-    const result = await mangadex.fetchPopular(1, 5);
-    setData(result);
+    const proxyUrl = "https://your-vercel-project.vercel.app/api/proxy?url=";
+    const apiUrl = "https://api.mangadex.org/manga";
+    const urlWithProxy = `${proxyUrl}${encodeURIComponent(apiUrl)}`;
+
+    try {
+      const result = await fetch(urlWithProxy, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await result.json();
+      setData(data);
+    } catch (error) {
+      console.error("Error fetching data from MangaDex:", error);
+    }
   };
+
   useEffect(() => {
     getData();
   }, []);
@@ -79,6 +96,7 @@ export default function PopularManga() {
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
   };
+
   return (
     <Box
       w="full"
@@ -88,8 +106,6 @@ export default function PopularManga() {
       pb={10}
       position="relative"
     >
-      {console.log(data)}
-
       {data ? (
         <Slider {...settings}>
           {data?.results?.map((manga) => (
