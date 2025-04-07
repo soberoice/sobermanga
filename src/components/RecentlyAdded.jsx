@@ -55,6 +55,7 @@ export default function RecentlyAdded() {
                     onClick={() => handleclick(manga?.id)}
                     key={manga?.id}
                   >
+                    {console.log(manga?.image)}
                     <Box w={"200px"}>
                       <Image
                         objectFit="cover"
