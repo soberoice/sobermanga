@@ -20,8 +20,10 @@ export default function RecentlyAdded() {
     navigat(`/manga/${id}`);
   };
   const getData = async () => {
-    const mangadex = new MANGA.MangaDex();
-    const result = await mangadex.fetchRecentlyAdded(1, 20);
+    const mangadex = new MANGA.MangaDex({
+      url: "https://corsproxy-psi.vercel.app/api/proxy?url=",
+    });
+    const result = await encodeURIComponent(mangadex.fetchRecentlyAdded(1, 5));
     setData(result);
   };
   useEffect(() => {
@@ -57,7 +59,7 @@ export default function RecentlyAdded() {
                       <Image
                         objectFit="cover"
                         minW="100px"
-                        src={manga?.image}
+                        src={`https://corsproxy-psi.vercel.app/api/proxy?url=${manga?.image}`}
                         alt={manga?.title}
                       />
                     </Box>
